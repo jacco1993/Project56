@@ -41,16 +41,6 @@ namespace WcfService2
     public class Service1 : IService1
     {
 
-        /*public MongoServer server;
-
-        public MongoServer Server()
-        {
-            var connectionString = "mongodb://localhost:27017";
-            var client = new MongoClient(connectionString);
-            var server = client.GetServer();
-            return server;
-        }*/
-
         public String getProducts()
         {
             var connectionString = "mongodb://localhost";
