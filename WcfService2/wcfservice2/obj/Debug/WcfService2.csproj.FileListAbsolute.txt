@@ -1,0 +1,24 @@
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\bin\WcfService2.dll.config
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\bin\WcfService2.dll
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\bin\WcfService2.pdb
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\obj\Debug\WcfService2.dll
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\obj\Debug\WcfService2.pdb
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\bin\MongoDB.Bson.dll
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\bin\MongoDB.Driver.dll
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\bin\MongoDB.Bson.xml
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\bin\MongoDB.Driver.xml
+c:\users\henk\documents\visual studio 2013\Projects\WcfService2\WcfService2\obj\Debug\WcfService2.csprojResolveAssemblyReference.cache
+C:\Users\henk\Documents\Visual Studio 2013\Projects\WcfService2\WcfService2\bin\Newtonsoft.Json.dll
+C:\Users\henk\Documents\Visual Studio 2013\Projects\WcfService2\WcfService2\bin\Newtonsoft.Json.xml
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\WcfService2.dll.config
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\WcfService2.dll
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\WcfService2.pdb
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\MongoDB.Bson.dll
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\MongoDB.Driver.dll
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\Newtonsoft.Json.dll
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\MongoDB.Bson.xml
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\MongoDB.Driver.xml
+C:\Users\henk\Desktop\WcfService2\WcfService2\bin\Newtonsoft.Json.xml
+C:\Users\henk\Desktop\WcfService2\WcfService2\obj\Debug\WcfService2.csprojResolveAssemblyReference.cache
+C:\Users\henk\Desktop\WcfService2\WcfService2\obj\Debug\WcfService2.dll
+C:\Users\henk\Desktop\WcfService2\WcfService2\obj\Debug\WcfService2.pdb
