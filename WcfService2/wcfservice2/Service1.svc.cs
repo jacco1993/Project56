@@ -60,7 +60,5 @@ namespace WcfService2
         {
             return "Hoi!";
         }
-
-
     }
 }
