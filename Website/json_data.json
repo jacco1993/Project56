@@ -1,0 +1,22 @@
+{
+	"p1":
+	{
+		"name": "Thierry de Wit",
+		"age": 19,
+		"company": "Hogeschool Rotterdam"
+	},
+
+	"p2":
+	{
+		"name": "Joost de Ruijter",
+		"age": 20,
+		"company": "Hogeschool Amsterdam"
+	},
+
+	"p3":
+	{
+		"name": "Wen Yao Bruins",
+		"age": 19,
+		"company": "Accountancy"
+	}
+}
