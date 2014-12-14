@@ -16,6 +16,7 @@ from random import randrange
 import re
 import math
 import time
+import datetime
 
 
 
@@ -84,7 +85,10 @@ def getitems(html):
 	startsoup = BeautifulSoup(startingcrawl.content, 'html.parser')
 	cntent = startsoup.findAll("td", {"class": "specs_title"})
 	price = startsoup.findAll("span",{"class" : "product-price-bol price-big"})
-	price = strip_tags(str(price[0]).replace("\n", ""))
+	if len(price) > 0:
+		price = strip_tags(str(price[0]).replace("\n", ""))
+	else:
+		price = "Niet leverbaar"
 	titles = startsoup.find('h1',{"class": "bol_header clear_autoheight bottom_0"})
 	titles = strip_tags(str(titles).replace("\n",""))
 	save = {}
@@ -106,10 +110,18 @@ def getitems(html):
 			spectitle = "Besturingssysteem"
 		if "\"" in invoer:
 			invoer = invoer.replace("\"", "-Inch ")
+		if "." in spectitle:
+			spectitle = spectitle.replace(".", "")
+		if "Harde schrijf snelheid" in spectitle:
+			spectitle = "Harde schijf snelheid (RPM)"
+		if "Opslagcapaciteit" in spectitle:
+			spectitle = "Opslagcapaciteit in GB (gigabyte) of TB (terabyte)"
 		save['specs'].append({})
 		save['specs'][x][spectitle] = invoer
 		save['price'] = price
 		x+=1
+	with open("mongoinput.txt", 'a') as myFile:
+		myFile.write(str(save) + "\n")
 	collection.insert(save)
 
 class MLStripper(HTMLParser):
@@ -150,7 +162,11 @@ time.sleep(2)
 
 with open('url.txt') as f:
 	content = f.readlines()
+
+linenumber = 0
 for line in content:
 	getitems(line)
+	linenumber += 1
 	client.close()
+	print "line" + str(linenumber) + " crawled at ------------" + str(datetime.datetime.now().time())
 	time.sleep(2)
