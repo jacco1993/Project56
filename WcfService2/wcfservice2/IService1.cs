@@ -12,17 +12,20 @@ using MongoDB.Driver.GridFS;
 using MongoDB.Driver.Linq;
 using MongoDB;
 using MongoDB.Bson.Serialization.Attributes;
+using System.IO;
 
 namespace WcfService2
 {
-
+    //
     [ServiceContract]
     public interface IService1
     {
         [OperationContract]
+        [WebGet(UriTemplate="getproducts")]
         String getProducts();
+        [WebGet(UriTemplate = "getmusic", ResponseFormat = WebMessageFormat.Json)]
         [OperationContract]
-        String getMusic();
+        List<Muziek> getMusic();
         //MongoServer Server();
     }
     }
