@@ -39,14 +39,20 @@ namespace WcfService2
         public String title1 { get; set; }
         public String title2 { get; set; }
     }
-    
+
     public class Products
     {
-        public String title { get; set; }
-        public String title1 { get; set; }
-        public String title2 { get; set; }
+        public ObjectId _id { get; set; }
+        public String price { get; set; }
+        public List<Specs> specs { get; set; }
+        public String Title { get; set; }
     }
 
+    public class Specs 
+    {
+        public String name { get; set;}
+        public String value { get; set; }
+    }
 
     public class Service1 : IService1
     {
@@ -79,24 +85,20 @@ namespace WcfService2
             //return json;
         }
 
-        public String getProducts()
+        public List<Products> getProducts()
         {
             //Connect met MongoDB op de server
             var connectionString = "mongodb://localhost";
             var client = new MongoClient(connectionString);
             var server = client.GetServer();
             //Pak database "Project56", en de collectie "Products"
-            MongoDatabase database = server.GetDatabase("Project56");
-            MongoCollection<Products> products = database.GetCollection<Products>("Products");
+            MongoDatabase database = server.GetDatabase("Products");
+            MongoCollection<Products> products = database.GetCollection<Products>("files2");
             //Pak alle BSON documenten
             MongoCursor<Products> allProducts = products.FindAll();
             //Zet alle documenten in een lijst
             List<Products> productsList = allProducts.ToList();
-            //Zet BSON om in JSON
-            var jsonSerialiser = new JavaScriptSerializer();
-            var json = jsonSerialiser.Serialize(productsList);
-            //Geef JSON terug
-            return json.ToString();
+            return productsList;
         }
 
     }

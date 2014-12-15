@@ -21,8 +21,8 @@ namespace WcfService2
     public interface IService1
     {
         [OperationContract]
-        [WebGet(UriTemplate="getproducts")]
-        String getProducts();
+        [WebGet(UriTemplate = "getproducts", ResponseFormat = WebMessageFormat.Json)]
+        List<Products> getProducts();
         [WebGet(UriTemplate = "getmusic", ResponseFormat = WebMessageFormat.Json)]
         [OperationContract]
         List<Muziek> getMusic();
