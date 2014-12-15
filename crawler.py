@@ -16,15 +16,18 @@ from random import randrange
 import re
 import math
 import time
-
-
-
+import datetime
+import smtplib
+# Import the email modules we'll need
+from email.mime.text import MIMEText
+import csv
+import traceback
 
 ####-----Initialize Settings-----####
 client = MongoClient()   # Connect to database
 db = client.testingdata  #create database called TestingData
 collection = db.files2  #Create collection named files 2( db.files2.find())
-
+csvfile = "pricewatch.csv"
 o=open("url.txt",'w')
 url = "http://www.bol.com/nl/l/computer/computercomponenten-behuizingen/N/8474/index.html"
 shorturl = "http://www.bol.com/nl/"
@@ -84,7 +87,10 @@ def getitems(html):
 	startsoup = BeautifulSoup(startingcrawl.content, 'html.parser')
 	cntent = startsoup.findAll("td", {"class": "specs_title"})
 	price = startsoup.findAll("span",{"class" : "product-price-bol price-big"})
-	price = strip_tags(str(price[0]).replace("\n", ""))
+	if len(price) > 0:
+		price = strip_tags(str(price[0]).replace("\n", ""))
+	else:
+		price = "Niet leverbaar"
 	titles = startsoup.find('h1',{"class": "bol_header clear_autoheight bottom_0"})
 	titles = strip_tags(str(titles).replace("\n",""))
 	save = {}
@@ -106,11 +112,21 @@ def getitems(html):
 			spectitle = "Besturingssysteem"
 		if "\"" in invoer:
 			invoer = invoer.replace("\"", "-Inch ")
+		if "." in spectitle:
+			spectitle = spectitle.replace(".", "")
+		if "Harde schrijf snelheid" in spectitle:
+			spectitle = "Harde schijf snelheid (RPM)"
+		if "Opslagcapaciteit" in spectitle:
+			spectitle = "Opslagcapaciteit in GB (gigabyte) of TB (terabyte)"
 		save['specs'].append({})
-		save['specs'][x][spectitle] = invoer
+		save['specs'][x]['name'] = spectitle
+		save['specs'][x]['value'] = invoer
 		save['price'] = price
 		x+=1
+	with open("mongoinput.txt", 'a') as myFile:
+		myFile.write(str(save) + "\n")
 	collection.insert(save)
+	#writeprices(price, titles)
 
 class MLStripper(HTMLParser):
 	def __init__(self):
@@ -126,18 +142,68 @@ def strip_tags(html):
     s.feed(html)
     return s.get_data()
 
+def error():
+	msg = MIMEText("A error occured: %s. <br> Near line number: <span style='Color:red'>%s</span> <p> <b>Please note that this is not the exact line number!</b> <p><p> Full traceback: %s" % (e, sys.exc_traceback.tb_lineno, traceback.format_exc()), 'html')
+	msg['Subject'] = 'Crawler raised an error!' 
+	msg['From'] = 'brian_van_den_heuvel@me.com'
+	msg['To'] = ['brian_van_den_heuvel@me.com','joost1235@hotmail.com']
 
-geturls(url)   #haal de eerste URL OP
-gettotalitems(url) # Haal het totaal aantal items op (aangegeven op de pagina's)
-urls.pop(0) #delete de eerste URL
-getnumber(len(urls), url)
-totalnumberofitems = str(totalnumberofitems).replace("[","").replace("]","").replace("'","").replace(".","")
-while (48*x <= int(totalnumberofitems)):
-	getnumber(len(urls),url)
-	geturls(adjustedurl[0])
-	x+=1
+	# Send the message via gmail's SMTP server.
+	s = smtplib.SMTP('smtp.gmail.com', 587)
+	s.starttls()
+	s.login("brian.van.den.heuvel2@gmail.com", "nouria123az")
+	s.sendmail(msg['From'], msg['To'], msg.as_string())
+	s.quit()
 
-print len(urls)
+def writeprices(prijs, titel):
+	price = prijs
+	titels = titel
+	with open(csvfile, 'a') as csvfiler:
+		filewrite = csv.writer(csvfiler)
+		filewrite.writerow([titels, price, 'END'])
+
+def updateprices(prijstitel, titelprijs):
+	with open(csvfile, 'r') as csvfileadjust:
+		filereader = csv.reader(csvfileadjust)
+		print titelprijs
+		if titelprijs == "Gembird externe Hardeschijf behuizing met USB 2.0 aansluiting":
+			prijstitel = 'EDITED PRIJS!'
+		for row in filereader:
+			header = row
+			print header
+			print " ---- "
+			if titelprijs in row:
+				ind = row.index('END')
+				lastprijs = row[ind-1]
+				print lastprijs
+				if lastprijs != prijstitel:
+					row.pop(ind)
+					row.append(prijstitel)
+					row.append("END")
+				with open('out.csv', 'a') as out:
+					tester = csv.writer(out)
+					tester.writerow(row)
+			else: 
+				with open('out.csv', 'a') as out:
+					tester = csv.writer(out)
+					row.append("addedddd")   #add a new line.
+					tester.writerow(row)
+
+
+
+try:
+	geturls(url)   #haal de eerste URL OP
+	gettotalitems(url) # Haal het totaal aantal items op (aangegeven op de pagina's)
+	urls.pop(0) #delete de eerste URL
+	getnumber(len(urls), url)
+	totalnumberofitems = str(totalnumberofitems).replace("[","").replace("]","").replace("'","").replace(".","")
+	while (48*x <= int(totalnumberofitems)):
+		getnumber(len(urls),url)
+		geturls(adjustedurl[0])
+		x+=1
+except Exception as e:
+	error()
+
 o.close()
 q=open("badurl.txt", 'w')
 q.write(str(stupidurls))
@@ -145,12 +211,21 @@ q.close()
 d=open("double.txt",'w')
 d.write(str(doubleurl))
 d.close()
-print "we just got " + str(len(urls)) + " links to products!"
+print("we just got " + str(len(urls)) + " links to products!")
 time.sleep(2)
 
-with open('url.txt') as f:
-	content = f.readlines()
-for line in content:
-	getitems(line)
-	client.close()
-	time.sleep(2)
+try:
+	with open('url.txt') as f:
+		content = f.readlines()
+
+	linenumber = 0
+	for line in content:
+		getitems(line)
+		linenumber += 1
+		client.close()
+		print("line" + str(linenumber) + " crawled at ------------" + str(datetime.datetime.now().time()))
+		time.sleep(2)
+except Exception as e:
+	error()
+
+
