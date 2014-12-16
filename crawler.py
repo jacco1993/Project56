@@ -166,7 +166,7 @@ def writeprices(prijs, titel):
 		filewrite.writerow([titels, price, 'END'])
 
 def updateprices(prijstitel, titelprijs, var):
-	with open('uri.csv', 'r') as csvfileadjust:
+	with open(csvfile, 'r') as csvfileadjust:
 		filereader = csv.reader(csvfileadjust)
 		row = list(islice(filereader,var+1))[-1]
 		if titelprijs in row:
