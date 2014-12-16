@@ -22,6 +22,7 @@ import smtplib
 from email.mime.text import MIMEText
 import csv
 import traceback
+from itertools import islice
 
 ####-----Initialize Settings-----####
 client = MongoClient()   # Connect to database
@@ -78,7 +79,7 @@ def getnumber(length, newurl):
 	adjustedurl[0] =  urlparts[0] + "page/" + str(pagenum[0]) + "/index.html"
 	return pagenum, newurl;
 
-def getitems(html):
+def getitems(html,var ):
 	x = 0
 	string = html
 
@@ -126,7 +127,8 @@ def getitems(html):
 	with open("mongoinput.txt", 'a') as myFile:
 		myFile.write(str(save) + "\n")
 	collection.insert(save)
-	#writeprices(price, titles)
+	writeprices(price, titles)
+	updateprices(price, titles, var)
 
 class MLStripper(HTMLParser):
 	def __init__(self):
@@ -146,13 +148,14 @@ def error():
 	msg = MIMEText("A error occured: %s. <br> Near line number: <span style='Color:red'>%s</span> <p> <b>Please note that this is not the exact line number!</b> <p><p> Full traceback: %s" % (e, sys.exc_traceback.tb_lineno, traceback.format_exc()), 'html')
 	msg['Subject'] = 'Crawler raised an error!' 
 	msg['From'] = 'brian_van_den_heuvel@me.com'
-	msg['To'] = ['brian_van_den_heuvel@me.com','joost1235@hotmail.com']
+	reciepients = ['brian_van_den_heuvel@me.com','joost1235@hotmail.com']
+	msg['To'] = ", ".join(reciepients)
 
 	# Send the message via gmail's SMTP server.
 	s = smtplib.SMTP('smtp.gmail.com', 587)
 	s.starttls()
 	s.login("brian.van.den.heuvel2@gmail.com", "nouria123az")
-	s.sendmail(msg['From'], msg['To'], msg.as_string())
+	s.sendmail(msg['From'], reciepients, msg.as_string())
 	s.quit()
 
 def writeprices(prijs, titel):
@@ -162,32 +165,25 @@ def writeprices(prijs, titel):
 		filewrite = csv.writer(csvfiler)
 		filewrite.writerow([titels, price, 'END'])
 
-def updateprices(prijstitel, titelprijs):
-	with open(csvfile, 'r') as csvfileadjust:
+def updateprices(prijstitel, titelprijs, var):
+	with open('uri.csv', 'r') as csvfileadjust:
 		filereader = csv.reader(csvfileadjust)
-		print titelprijs
-		if titelprijs == "Gembird externe Hardeschijf behuizing met USB 2.0 aansluiting":
-			prijstitel = 'EDITED PRIJS!'
-		for row in filereader:
-			header = row
-			print header
-			print " ---- "
-			if titelprijs in row:
-				ind = row.index('END')
-				lastprijs = row[ind-1]
-				print lastprijs
-				if lastprijs != prijstitel:
-					row.pop(ind)
-					row.append(prijstitel)
-					row.append("END")
-				with open('out.csv', 'a') as out:
-					tester = csv.writer(out)
-					tester.writerow(row)
-			else: 
-				with open('out.csv', 'a') as out:
-					tester = csv.writer(out)
-					row.append("addedddd")   #add a new line.
-					tester.writerow(row)
+		row = list(islice(filereader,var+1))[-1]
+		if titelprijs in row:
+			ind = row.index('END')
+			lastprijs = row[ind-1]
+			print lastprijs
+			if lastprijs != prijstitel:
+				row.pop(ind)
+				row.append(prijstitel)
+				row.append("END")
+			with open('out.csv', 'a') as out:
+				tester = csv.writer(out)
+				tester.writerow(row)
+		else: 
+			with open('out.csv', 'a') as out:
+				tester = csv.writer(out)
+				tester.writerow(row)
 
 
 
@@ -220,11 +216,10 @@ try:
 
 	linenumber = 0
 	for line in content:
-		getitems(line)
+		getitems(line, linenumber)
 		linenumber += 1
 		client.close()
 		print("line" + str(linenumber) + " crawled at ------------" + str(datetime.datetime.now().time()))
-		time.sleep(2)
 except Exception as e:
 	error()
 
