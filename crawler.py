@@ -220,6 +220,7 @@ try:
 		linenumber += 1
 		client.close()
 		print("line" + str(linenumber) + " crawled at ------------" + str(datetime.datetime.now().time()))
+		time.sleep(1)
 except Exception as e:
 	error()
 
