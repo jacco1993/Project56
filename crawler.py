@@ -26,8 +26,8 @@ from itertools import islice
 
 ####-----Initialize Settings-----####
 client = MongoClient()   # Connect to database
-db = client.testingdata  #create database called TestingData
-collection = db.files2  #Create collection named files 2( db.files2.find())
+db = client.Products  #create database called Products
+collection = db.allProducts  #Create collection named allProducts( db.allProducts.find())
 csvfile = "pricewatch.csv"  #create a string with the name of a new CSV FILE
 o=open("url.txt",'w') 		#Open a file and name it url.txt with the WRITE option
 url = "http://www.bol.com/nl/l/computer/computercomponenten-behuizingen/N/8474/index.html"  
