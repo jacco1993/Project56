@@ -1,7 +1,7 @@
 #! Python3
 #updated crawler
 #imports.
-
+#Code starts at line number 190
 from HTMLParser import HTMLParser
 from pymongo import MongoClient
 import os
@@ -28,9 +28,9 @@ from itertools import islice
 client = MongoClient()   # Connect to database
 db = client.testingdata  #create database called TestingData
 collection = db.files2  #Create collection named files 2( db.files2.find())
-csvfile = "pricewatch.csv"
-o=open("url.txt",'w')
-url = "http://www.bol.com/nl/l/computer/computercomponenten-behuizingen/N/8474/index.html"
+csvfile = "pricewatch.csv"  #create a string with the name of a new CSV FILE
+o=open("url.txt",'w') 		#Open a file and name it url.txt with the WRITE option
+url = "http://www.bol.com/nl/l/computer/computercomponenten-behuizingen/N/8474/index.html"  
 shorturl = "http://www.bol.com/nl/"
 urls = [url]
 stupidurls = []
