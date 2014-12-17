@@ -16,16 +16,13 @@ using System.IO;
 
 namespace WcfService2
 {
-    //
     [ServiceContract]
     public interface IService1
     {
         [OperationContract]
+        //Zodra je getproducts meegeeft achteraanaan de service URL, krijg je de List die in getproducts wordt gereturned
+        //Zet deze list om naar JSON
         [WebGet(UriTemplate = "getproducts", ResponseFormat = WebMessageFormat.Json)]
         List<Products> getProducts();
-        [WebGet(UriTemplate = "getmusic", ResponseFormat = WebMessageFormat.Json)]
-        [OperationContract]
-        List<Muziek> getMusic();
-        //MongoServer Server();
     }
     }
