@@ -7,6 +7,7 @@ Contributers : <a href="https://github.com/k1u">Joost de Ruijter</a> & <a href="
 
 <H2> Usage:</H2>
 
+<h3> Python:</H3>
 This code makes use of several python Packages including but not limited to: 
 <ul> <li> HTMLParser</li>
 <li> PyMongo</li>
@@ -29,7 +30,7 @@ This code makes use of several python Packages including but not limited to:
 <ul><li> islice</li></ul>
 </ul>
 
-Furthermore this code makes use of MongoDB to save 'dictionary's' to the database
+Furthermore this code makes use of MongoDB to save 'dictionary's'.
 
 
 <h3> C#:</H3>
