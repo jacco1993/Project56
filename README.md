@@ -32,15 +32,17 @@ This code makes use of several python Packages including but not limited to:
 Furthermore this code makes use of MongoDB to save 'dictionary's' to the database
 
 
-<h3> Java:</H3>
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver.GridFS;
-using MongoDB.Driver.Linq;
-using MongoDB;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.IO;
+<h3> C#:</H3>
+<ul><li>
+using MongoDB.Bson;</li>
+<li>using MongoDB.Driver;</li>
+<li>using MongoDB.Driver.Builders;</li>
+<li>using MongoDB.Driver.GridFS;</li>
+<li>using MongoDB.Driver.Linq;</li>
+<li>using MongoDB;</li>
+<li>using MongoDB.Bson.Serialization.Attributes;</li>
+<li>using MongoDB.Bson.IO;</li>
+</ul>
 
 ========
 Copyright © 2014 Web2Shop.
