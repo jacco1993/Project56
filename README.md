@@ -29,7 +29,7 @@ This code makes use of several python Packages including but not limited to:
 <ul><li> islice</li></ul>
 </ul>
 
-Furthermore this code makes use of MongoDB to save 'dictionary's' to the 
+Furthermore this code makes use of MongoDB to save 'dictionary's' to the database
 
 
 ========
