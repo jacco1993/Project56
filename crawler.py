@@ -30,9 +30,25 @@ db = client.Products  #create database called Products
 collection = db.allProducts  #Create collection named allProducts( db.allProducts.find())
 csvfile = "pricewatch.csv"  #create a string with the name of a new CSV FILE
 o=open("url.txt",'w') 		#Open a file and name it url.txt with the WRITE option
-url = "http://www.bol.com/nl/l/computer/computercomponenten-behuizingen/N/8474/index.html"  
+'''
+http://www.bol.com/nl/l/computer/computercomponenten-koeling/N/16457/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-behuizingen/N/8474/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-controllers/N/16436/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-geheugen-toebehoren/N/16438/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-inbouw-dataopslag/N/16445/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-netwerk/N/16449/index.html
+http://www.bol.com/nl/l/computer/dataopslag-geheugen-optical-drives/N/7115/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-moederborden-toebehoren/N/16478/index.html
+http://www.bol.com/nl/l/computer/dataopslag-geheugen-netwerkopslag-nas/N/7116/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-geluidskaarten/N/8476/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-processoren/N/16482/index.html
+http://www.bol.com/nl/l/computer/computercomponenten-energie/N/16488/index.html
+'''
+
+url = "http://www.bol.com/nl/l/computer/computercomponenten-geheugen-toebehoren/N/16438/index.html"
+itemtype = True
 shorturl = "http://www.bol.com/nl/"
-urls = [url]
+urls = []
 stupidurls = []
 doubleurl = []
 visited = [url]
@@ -79,13 +95,34 @@ def getnumber(length, newurl):
 	adjustedurl[0] =  urlparts[0] + "page/" + str(pagenum[0]) + "/index.html"
 	return pagenum, newurl;
 
-def getitems(html,var ):
+def getitems(html,var, itemtype ):
 	x = 0
+	size= 0
+	sizeindex = 0
+	save = {}
 	string = html
-
 	startingcrawl = requests.get(html, headers=headers)
-
 	startsoup = BeautifulSoup(startingcrawl.content, 'html.parser')
+	if itemtype:
+		beschrijving = startsoup.findAll("p",{"itemprop" : "description"})
+		for value in beschrijving:
+			kenmerken = value.findAll("ul", {"class" : "default_listitem"})
+			if len(kenmerken) > 0:
+				li = kenmerken[0].findChildren()
+				while sizeindex < len(li):
+					if "<br/>" in str(li[sizeindex]):
+						li.pop(sizeindex)
+					sizeindex+=1
+				save['beschrijving'] = []
+				while size < len(li):
+					element = str(li[size])
+					invoerelement = strip_tags(element).replace(".","")
+					save['beschrijving'].append({})
+					invoerelement = invoerelement.split(":")
+					save['beschrijving'][size]['name'] = invoerelement[0]
+					save['beschrijving'][size]['value'] = invoerelement[1]
+					size+=1
+	beschrijving = strip_tags(str(beschrijving)).replace("\"","").replace(".","")
 	cntent = startsoup.findAll("td", {"class": "specs_title"})
 	price = startsoup.findAll("span",{"class" : "product-price-bol price-big"})
 	if len(price) > 0:
@@ -94,7 +131,6 @@ def getitems(html,var ):
 		price = "Niet leverbaar"
 	titles = startsoup.find('h1',{"class": "bol_header clear_autoheight bottom_0"})
 	titles = strip_tags(str(titles).replace("\n",""))
-	save = {}
 
 	## EDIT ##
 	save['Title'] = titles 
@@ -123,6 +159,7 @@ def getitems(html,var ):
 		save['specs'][x]['name'] = spectitle
 		save['specs'][x]['value'] = invoer
 		save['price'] = price
+		save['description'] = beschrijving
 		x+=1
 	with open("mongoinput.txt", 'a') as myFile:
 		myFile.write(str(save) + "\n")
@@ -148,7 +185,7 @@ def error():
 	msg = MIMEText("A error occured: %s. <br> Near line number: <span style='Color:red'>%s</span> <p> <b>Please note that this is not the exact line number!</b> <p><p> Full traceback: %s" % (e, sys.exc_traceback.tb_lineno, traceback.format_exc()), 'html')
 	msg['Subject'] = 'Crawler raised an error!' 
 	msg['From'] = 'brian_van_den_heuvel@me.com'
-	reciepients = ['brian_van_den_heuvel@me.com','joost1235@hotmail.com']
+	reciepients = ['brian_van_den_heuvel@me.com', 'joost1235@hotmail.com']
 	msg['To'] = ", ".join(reciepients)
 
 	# Send the message via gmail's SMTP server.
@@ -193,12 +230,17 @@ try:
 	urls.pop(0) #delete de eerste URL
 	getnumber(len(urls), url)
 	totalnumberofitems = str(totalnumberofitems).replace("[","").replace("]","").replace("'","").replace(".","")
+	print totalnumberofitems
 	while (48*x <= int(totalnumberofitems)):
+		print len(urls)
 		getnumber(len(urls),url)
-		geturls(adjustedurl[0])
+		geturls(adjustedurl[0])	
+		print adjustedurl
+		time.sleep(5)
 		x+=1
 except Exception as e:
-	error()
+	print e
+
 
 o.close()
 q=open("badurl.txt", 'w')
@@ -216,12 +258,14 @@ try:
 
 	linenumber = 0
 	for line in content:
-		getitems(line, linenumber)
+		getitems(line, linenumber, itemtype)
 		linenumber += 1
 		client.close()
 		print("line" + str(linenumber) + " crawled at ------------" + str(datetime.datetime.now().time()))
 		time.sleep(1)
 except Exception as e:
-	error()
+	print e
+	print traceback.format_exc()
+
 
 
