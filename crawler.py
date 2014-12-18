@@ -120,7 +120,8 @@ def getitems(html,var, itemtype ):
 					save['beschrijving'].append({})
 					invoerelement = invoerelement.split(":")
 					save['beschrijving'][size]['name'] = invoerelement[0]
-					save['beschrijving'][size]['value'] = invoerelement[1]
+					if len(invoerelement) > 1:
+						save['beschrijving'][size]['value'] = invoerelement[1]
 					size+=1
 	beschrijving = strip_tags(str(beschrijving)).replace("\"","").replace(".","")
 	cntent = startsoup.findAll("td", {"class": "specs_title"})
@@ -264,8 +265,7 @@ try:
 		print("line" + str(linenumber) + " crawled at ------------" + str(datetime.datetime.now().time()))
 		time.sleep(1)
 except Exception as e:
-	print e
-	print traceback.format_exc()
+	error()
 
 
 
