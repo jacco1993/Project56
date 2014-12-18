@@ -116,14 +116,14 @@ def getitems(html,var, itemtype ):
 				save['beschrijving'] = []
 				while size < len(li):
 					element = str(li[size])
-					invoerelement = strip_tags(element).replace(".","")
+					invoerelement = strip_tags(element).replace(".","\uff0E")
 					save['beschrijving'].append({})
 					invoerelement = invoerelement.split(":")
 					save['beschrijving'][size]['name'] = invoerelement[0]
 					if len(invoerelement) > 1:
 						save['beschrijving'][size]['value'] = invoerelement[1]
 					size+=1
-	beschrijving = strip_tags(str(beschrijving)).replace("\"","").replace(".","")
+	beschrijving = strip_tags(str(beschrijving)).replace("\"","").replace(".","\uff0E")
 	cntent = startsoup.findAll("td", {"class": "specs_title"})
 	price = startsoup.findAll("span",{"class" : "product-price-bol price-big"})
 	if len(price) > 0:
@@ -151,7 +151,7 @@ def getitems(html,var, itemtype ):
 		if "\"" in invoer:
 			invoer = invoer.replace("\"", "-Inch ")
 		if "." in spectitle:
-			spectitle = spectitle.replace(".", "")
+			spectitle = spectitle.replace(".", "\uff0E")
 		if "Harde schrijf snelheid" in spectitle:
 			spectitle = "Harde schijf snelheid (RPM)"
 		if "Opslagcapaciteit" in spectitle:
