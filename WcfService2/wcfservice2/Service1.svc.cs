@@ -45,14 +45,16 @@ namespace WcfService2
             var client = new MongoClient(connectionString);
             var server = client.GetServer();
             //Pak database "Products", en de collectie "files2", hierin staan de producten
-            MongoDatabase database = server.GetDatabase("Products");
-            MongoCollection<Products> products = database.GetCollection<Products>("files2");
+            MongoDatabase database = server.GetDatabase("DevOpdr");
+            MongoCollection<Products> products = database.GetCollection<Products>("Muziek");
             //Pak alle BSON documenten
             MongoCursor<Products> allProducts = products.FindAll();
             //Zet alle documenten in een lijst
             List<Products> productsList = allProducts.ToList();
             return productsList;
         }
+
+
 
     }
     

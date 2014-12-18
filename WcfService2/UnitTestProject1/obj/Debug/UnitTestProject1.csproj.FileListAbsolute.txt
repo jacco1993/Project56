@@ -1,0 +1,13 @@
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\UnitTestProject1.dll
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\UnitTestProject1.pdb
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\MongoDB.Bson.dll
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\MongoDB.Driver.dll
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\WcfService2.dll
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\WcfService2.pdb
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\MongoDB.Bson.xml
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\MongoDB.Driver.xml
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\obj\Debug\UnitTestProject1.csprojResolveAssemblyReference.cache
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\obj\Debug\UnitTestProject1.dll
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\obj\Debug\UnitTestProject1.pdb
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\nunit.framework.dll
+C:\Users\henk\Pictures\WcfService2\UnitTestProject1\bin\Debug\nunit.framework.xml
