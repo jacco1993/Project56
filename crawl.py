@@ -175,7 +175,7 @@ def writeprices(prijs, titles):
 def updateprices(prijs, titles):
 	today = str(datetime.date.today())
 	print "hello"
-	prijsColl.update({'titles':titles}, {'$set':{'2014-12-23':prijs}})
+	prijsColl.update({'titles':titles}, {'$set':{today:prijs}})
 
 
 try:
