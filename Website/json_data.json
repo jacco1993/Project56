@@ -1,22 +1,4 @@
-{
-	"p1":
-	{
-		"name": "Thierry de Wit",
-		"age": 19,
-		"company": "Hogeschool Rotterdam"
-	},
 
-	"p2":
-	{
-		"name": "Joost de Ruijter",
-		"age": 20,
-		"company": "Hogeschool Amsterdam"
-	},
+{"beschrijving": [{"name": "Temperatuur, in bedrijf", "value": " 0 - 85 .C"}, {"name": "Temperatuur bij opslag", "value": " -25 - 95 .C"}, {"name": "Intern geheugentype", "value": " DDR2"}, {"name": "CAS-latentie", "value": " 6"}, {"name": "Verpakkingstype", "value": " SO-DIMM"}, {"name": "Intern geheugen", "value": " 4 GB"}, {"name": "Component voor", "value": " Notebook"}, {"name": "Geheugenlayout (modules x formaat)", "value": " 2 x 2 GB"}, {"name": "Ondersteunt Windows", "value": " Y"}, {"name": "Ondersteunt Linux", "value": " Y"}, {"name": "Ondersteunt Mac-besturingssysteem", "value": " Y"}, {"name": "Mac-compatibiliteit", "value": " Y"}, {"name": "Kloksnelheid geheugen", "value": " 800 MHz"}], "price": "64,99", "description": "[KenmerkenTemperatuur, in bedrijf: 0 - 85 c2b0CTemperatuur bij opslag: -25 - 95 c20CIntern geheugentype: DDR2CAS-latentie: 6Verpakkingstype: SO-DIMMIntern geheugen: 4 GBComponent voor: NotebookGeheugenlayout (modules x formaat): 2 x 2 GBOndersteunt Windows: YOndersteunt Linux: YOndersteunt Mac-besturingssysteem: YMac-compatibiliteit: YKloksnelheid geheugen: 800 MHz]", "specs": [{"name": "Besturingssysteem", "value": "Mac"}, {"name": "Platform", "value": "Windows"}, {"name": "Systeemeisen", "value": "Mac compatibel| compatibele besturingssystemen"}, {"name": "Artikelnummer", "value": "CT2C2G2S800MCEU"}, {"name": "EAN", "value": "0649528762368"}], "Title": "4GB kit (2GBx2) DDR2 800MHz (PC2-6400) CL6 SODIMM 200 pin for Mac"}
 
-	"p3":
-	{
-		"name": "Wen Yao Bruins",
-		"age": 19,
-		"company": "Accountancy"
-	}
-}
+
