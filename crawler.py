@@ -45,7 +45,7 @@ http://www.bol.com/nl/l/computer/computercomponenten-processoren/N/16482/index.h
 http://www.bol.com/nl/l/computer/computercomponenten-energie/N/16488/index.html
 '''
 
-url = "http://www.bol.com/nl/l/computer/computercomponenten-geheugen-toebehoren/N/16438/index.html"
+url = "http://www.bol.com/nl/l/computer/computercomponenten-moederborden-toebehoren/N/16478/index.html"
 itemtype = True
 shorturl = "http://www.bol.com/nl/"
 urls = []
@@ -116,14 +116,14 @@ def getitems(html,var, itemtype ):
 				save['beschrijving'] = []
 				while size < len(li):
 					element = str(li[size])
-					invoerelement = strip_tags(element).replace(".","\uff0E")
+					invoerelement = strip_tags(element) #.replace(".","")  als hij error geeft voor kan geen . in key ofzo
 					save['beschrijving'].append({})
 					invoerelement = invoerelement.split(":")
 					save['beschrijving'][size]['name'] = invoerelement[0]
 					if len(invoerelement) > 1:
 						save['beschrijving'][size]['value'] = invoerelement[1]
 					size+=1
-	beschrijving = strip_tags(str(beschrijving)).replace("\"","").replace(".","\uff0E")
+	beschrijving = strip_tags(str(beschrijving)).replace("\"","") #.replace(".", "")
 	cntent = startsoup.findAll("td", {"class": "specs_title"})
 	price = startsoup.findAll("span",{"class" : "product-price-bol price-big"})
 	if len(price) > 0:
@@ -138,9 +138,9 @@ def getitems(html,var, itemtype ):
 	##      ##
 	save['specs'] = []
 	while x <= len(cntent)-1:
-		test = str(cntent[x])
+		test = unicode(str(cntent[x]),"utf-8")
 		content = startsoup.findAll("td", {"class": "specs_descr"})
-		test2 = str(content[x])
+		test2 = unicode(str(content[x]),"utf-8")
 		invoer =  strip_tags(test2).replace("\n", "")
 		invoer = invoer.strip()
 		spectitle = strip_tags(test).replace("\n", "")
@@ -240,7 +240,7 @@ try:
 		time.sleep(5)
 		x+=1
 except Exception as e:
-	print e
+	error()
 
 
 o.close()
@@ -266,6 +266,8 @@ try:
 		time.sleep(1)
 except Exception as e:
 	error()
+	traceback.format_exc()
+	print e
 
 
 
