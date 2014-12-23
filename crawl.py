@@ -15,8 +15,12 @@ prijsColl = prijsdata.Prijs
 
 csvfile = "pricewatch.csv"
 urlfile = open("url.txt",'w') #Used to traceback which url gives us the error.
-x = sys.argv[1]
-print sys.argv[2]
+try:
+	x = sys.argv[1]
+except IndexError as error:
+	print "Stopping script"
+	print "---------------"
+ 	sys.exit("No arguments given, crawl.py takes 2 Arguments")
 try:
 	x = int(x)
 except ValueError as error:
@@ -90,7 +94,7 @@ def getitems(html, var):
 				if "<br/>" in str(li[sizeIndex]):
 					li.pop(sizeIndex)
 				sizeIndex+=1
-			mongoInput['breschijving'] = []
+			mongoInput['beschrijving'] = []
 			while size < len(li):
 				invoerelement = strip_tags(str(li[size]))
 				mongoInput['beschrijving'].append({})
