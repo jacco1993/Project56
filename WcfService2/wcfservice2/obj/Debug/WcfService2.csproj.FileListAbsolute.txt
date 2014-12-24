@@ -21,3 +21,4 @@ C:\Users\henk\Pictures\WcfService2\WcfService2\bin\Newtonsoft.Json.xml
 C:\Users\henk\Pictures\WcfService2\WcfService2\obj\Debug\WcfService2.dll
 C:\Users\henk\Pictures\WcfService2\WcfService2\obj\Debug\WcfService2.pdb
 C:\Users\henk\Pictures\WcfService2\WcfService2\obj\Debug\WcfService2.csprojResolveAssemblyReference.cache
+C:\Users\0879118\Desktop\WcfService2\WcfService2\obj\Debug\WcfService2.csprojResolveAssemblyReference.cache
