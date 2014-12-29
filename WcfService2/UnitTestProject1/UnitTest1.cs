@@ -43,7 +43,7 @@ namespace UnitTestProject1
             //Kijkt of er wel wat wordt teruggegeven
         {
             Service1 service = new Service1();
-            Assert.IsTrue(service.getProducts().Count > 0);
+            Assert.IsTrue(service.getMoederbordAMD().Count > 0);
         }
     }
 }

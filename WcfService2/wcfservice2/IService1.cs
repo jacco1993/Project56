@@ -20,9 +20,10 @@ namespace WcfService2
     public interface IService1
     {
         [OperationContract]
-        //Zodra je getproducts meegeeft achteraanaan de service URL, krijg je de List die in getproducts wordt gereturned
-        //Zet deze list om naar JSON
-        [WebGet(UriTemplate = "getproducts", ResponseFormat = WebMessageFormat.Json)]
-         List<Products> getProducts();
+        [WebGet(UriTemplate = "getAllProducts", ResponseFormat = WebMessageFormat.Json)]
+         List<Products> getAllProducts();
+        [OperationContract]
+        [WebGet(UriTemplate = "{collectie}?zoekwoord={merk}", ResponseFormat = WebMessageFormat.Json)]
+        List<Products> get(String collectie, String merk);
     }
     }

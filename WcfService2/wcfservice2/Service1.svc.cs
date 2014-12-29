@@ -25,9 +25,12 @@ namespace WcfService2
     public class Products
     {
         public ObjectId _id { get; set; }
-        public String price { get; set; }
+        public List<Beschrijving> beschrijving { get; set; }
         public List<Specs> specs { get; set; }
+        public String price { get; set; }
         public String Title { get; set; }
+        public String titles { get; set; }
+        public String description { get; set; }
     }
 
     public class Specs 
@@ -36,23 +39,71 @@ namespace WcfService2
         public String value { get; set; }
     }
 
+    public class Beschrijving
+    {
+        public String name { get; set; }
+        public String value { get; set; }
+    }
+
     public class Service1 : IService1
     {
-        public List<Products> getProducts()
+
+        public MongoDatabase connect()
         {
-            //Connect met MongoDB op de server
             var connectionString = "mongodb://localhost";
             var client = new MongoClient(connectionString);
             var server = client.GetServer();
-            //Pak database "Products", en de collectie "files2", hierin staan de producten
-            MongoDatabase database = server.GetDatabase("DevOpdr");
-            MongoCollection<Products> products = database.GetCollection<Products>("Muziek");
-            //Pak alle BSON documenten
-            MongoCursor<Products> allProducts = products.FindAll();
-            //Zet alle documenten in een lijst
-            List<Products> productsList = allProducts.ToList();
+            MongoDatabase database = server.GetDatabase("Products");
+            return database;
+        }
+
+        public String[] collectionArray()
+        {
+            String[] collections = new String[12];
+            collections[0] = "Behuizingen";
+            collections[1] = "Controllers";
+            collections[2] = "Energie";
+            collections[3] = "Geluidskaarten";
+            collections[4] = "Hardeschijven";
+            collections[5] = "Koeling";
+            collections[6] = "Moederborden";
+            collections[7] = "Netwerk";
+            collections[8] = "Netwerkopslag";
+            collections[9] = "OptischeDrives";
+            collections[10] = "Processoren";
+            collections[11] = "Geheugen";
+            return collections;
+        }
+        public List<Products> getAllProducts()
+        {
+            List<Products> total = new List<Products>();
+
+            for (int x = 0;x < 12; x++)
+            {
+                String[] array = collectionArray();
+                MongoCollection<Products> products = connect().GetCollection<Products>(array[x]);
+                MongoCursor<Products> allProducts = products.FindAll();
+                List<Products> productsList = allProducts.ToList();
+                total.AddRange(productsList);
+            }
+            return total;
+        }
+
+        public List<Products> get(String collectie, String merk)
+        {
+            MongoCollection<Products> moederborden = connect().GetCollection<Products>(collectie);
+            var query1 = moederborden.Find(Query.Matches("Title", merk));
+            var query2 = moederborden.Find(Query.Matches("description", merk));
+            List<Products> query1list = query1.ToList();
+            List<Products> query2list = query2.ToList();
+            query1list.AddRange(query2list);
+            List<Products> productsList = new List<Products>();
+            productsList.AddRange(query1list.Distinct());
             return productsList;
         }
+
+
+
 
 
 
