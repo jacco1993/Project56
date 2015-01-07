@@ -17,6 +17,25 @@ namespace UnitTestProject1
     [TestClass]
     public class UnitTest1
     {
+        public String[] fillArray()
+        {
+            String[] collections = new String[12];
+            collections[0] = "Behuizingen";
+            collections[1] = "Controllers";
+            collections[2] = "Energie";
+            collections[3] = "Geheugen";
+            collections[4] = "Geluidskaarten";
+            collections[5] = "Hardeschijf";
+            collections[6] = "Koeling";
+            collections[7] = "Moederborden";
+            collections[8] = "Netwerk";
+            collections[9] = "OptischeDrivers";
+            collections[10] = "NetwerkOpslag";
+            collections[11] = "Processoren";
+            return collections;
+        }
+       
+
         [TestMethod]
         public void testConnection()
             //Kijkt of er succesvol verbonden wordt met de database
@@ -35,7 +54,10 @@ namespace UnitTestProject1
             var client = new MongoClient(connectionString);
             var server = client.GetServer();
             MongoDatabase database = server.GetDatabase("Products");
-            Assert.AreEqual(true,database.GetCollection("files2").Exists());
+            for (int x = 0; x < 12; x++)
+            {
+                Assert.AreEqual(true, database.GetCollection(fillArray()[x]).Exists());
+            }
         }
 
         [TestMethod]
@@ -43,7 +65,7 @@ namespace UnitTestProject1
             //Kijkt of er wel wat wordt teruggegeven
         {
             Service1 service = new Service1();
-            Assert.IsTrue(service.getMoederbordAMD().Count > 0);
+            Assert.IsTrue(service.getAllProducts().Count > 0);
         }
     }
 }
