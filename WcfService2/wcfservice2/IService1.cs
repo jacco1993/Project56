@@ -25,5 +25,8 @@ namespace WcfService2
         [OperationContract]
         [WebGet(UriTemplate = "{collectie}?zoekwoord={merk}", ResponseFormat = WebMessageFormat.Json)]
         List<Products> get(String collectie, String merk);
+        [OperationContract]
+        [WebGet(UriTemplate = "Prices?zoekwoord={merk}", ResponseFormat = WebMessageFormat.Json)]
+        List<Prijs> getPrices(String merk);
     }
     }
